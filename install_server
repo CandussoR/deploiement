@@ -1,0 +1,15 @@
+#!bin/bash
+
+
+scw instance server create type=PLAY2-PICO zone=fr-par-1 image=ubuntu_jammy root-volume=b:10G additional-volumes.0=b:10G name=Roro-dev ip=new project-id=f7cfc317-a399-4804-b3bf-9e55f4ce842c
+
+apt -y update && apt -y upgrade
+apt -y composer install
+apt -y install php8.1
+apt install -y php8.1-fpm php-pgsql
+apt install -y ufw nginx
+ufw allow 'Nginx HTTP'
+ufw allow 'OpenSSH'
+ufw enable
+
+scp /home/romain/Code/deploiement/default root@51.158.118.178:/etc/nginx/sites-available/
