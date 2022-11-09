@@ -22,11 +22,12 @@ server {
 	# http
     listen 80;
     server_name hotel-arth.fr www.hotel-arth.fr;
+    # redirects on https
     return 301 https://hotel-arth.fr$request_uri;
 }
 
 server {
-	# redirects http to https
+	# https
     listen 443 ssl http2;
     server_name hotel-arth.fr www.hotel-arth.fr;
     root /var/www/html/laravel/public;
