@@ -1,11 +1,9 @@
 server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
     root /var/www/html/laravel/public;
     server_name hotel-arth.fr www.hotel-arth.fr;
 
     listen 443 ssl; # managed by Certbot
-    
+
     add_header X-Frame-Options "SAMEORIGIN";
     add_header X-Content-Type-Options "nosniff";
 
@@ -33,8 +31,8 @@ server {
     }
 
     # RSA certificate
-    ssl_certificate /etc/letsencrypt/live/hotel-arth.fr/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/hotel-arth.fr/privkey.pem; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/hotel-arth.fr-0001/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/hotel-arth.fr-0001/privkey.pem; # managed by Certbot
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 
@@ -42,4 +40,23 @@ server {
     if ($scheme != "https") {
         return 301 https://$host$request_uri;
     } # managed by Certbot
+
+
+}
+server {
+    if ($host = www.hotel-arth.fr) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    if ($host = hotel-arth.fr) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name hotel-arth.fr www.hotel-arth.fr;
+    return 404; # managed by Certbot
+
 }
